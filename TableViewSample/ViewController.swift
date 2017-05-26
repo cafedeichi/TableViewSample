@@ -38,32 +38,32 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        Swift.debugPrint("viewDidLoad")
+        Swift.debugPrint(#function)
         self.setup()
     }
     
     //ViewContorllerのViewが表示された時
     override func viewDidAppear(_ animated: Bool) {
+        Swift.debugPrint(#function)
         super.viewDidAppear(animated)   //superを呼ぶのを忘れずに
-        Swift.debugPrint("viewDidAppear")
     }
     
     //ViewContorllerのViewが表示される前
     override func viewWillAppear(_ animated: Bool) {
+        Swift.debugPrint(#function)
         super.viewWillAppear(animated)
-        Swift.debugPrint("viewWillAppear")
     }
     
     //ViewContorllerのViewが非表示になる前
     override func viewWillDisappear(_ animated: Bool) {
+        Swift.debugPrint(#function)
         super.viewWillDisappear(animated)
-        Swift.debugPrint("viewWillDisappear")
     }
     
     //ViewContorllerのViewが非表示になった後
     override func viewDidDisappear(_ animated: Bool) {
+        Swift.debugPrint(#function)
         super.viewDidAppear(animated)
-        Swift.debugPrint("viewDidDisappear")
     }
     
     //アプリが著しくメモリを消費した時に呼ばれるメソッド。自動生成される。
@@ -90,7 +90,7 @@ extension ViewController : UITableViewDataSource {
     //テーブルの各セルの表示処理を行う。
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        Swift.debugPrint("cellForRowAt:\(indexPath.row)")
+        Swift.debugPrint(#function,"indexPath:\(indexPath.row)")
         
         //既に存在しているcellを再利用する。"tableViewCellIdentifier"をキーにメモリに保存されているcellをもってくる。
         var cell : UITableViewCell! = tableView.dequeueReusableCell(withIdentifier: self.tableViewCellIdentifier)
@@ -116,21 +116,25 @@ extension ViewController : UITableViewDelegate {
     //セルが選択された時の処理
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        //アラートビューの表示。上から件名、メッセージ、スタイル。
-        let alert = UIAlertController(title:"Greetings",
-                                      message: "Hi, I'm \(self.staff[indexPath.row]).",
-            preferredStyle: UIAlertControllerStyle.alert)
+//        //アラートビューの表示。上から件名、メッセージ、スタイル。
+//        let alert = UIAlertController(title:"Greetings",message: "Hi, I'm \(self.staff[indexPath.row]).",preferredStyle: UIAlertControllerStyle.alert)
+//
+//        //OKを押した時のアクションを作成。
+//        let okAction = UIAlertAction(title: "OK", style: .default) { (_) in
+//            tableView.deselectRow(at: indexPath, animated: true)
+//        }
+//
+//        //作成したアクションをアラートビューに紐づける。
+//        alert.addAction(okAction)
+//        //実際にアラートを表示。
+//        self.present(alert, animated: true, completion: nil)
         
-        //OKを押した時のアクションを作成。
-        let okAction = UIAlertAction(title: "OK", style: .default) { (_) in
-            tableView.deselectRow(at: indexPath, animated: true)
-        }
+        //messageプロパティに値を設定して画面遷移。
+        let viewController = DetailViewController(nibName: "DetailViewController", bundle: nil)
+        viewController.message = "Hi, I'm \(self.staff[indexPath.row])."
+        self.present(viewController, animated: true, completion: nil)
         
-        //作成したアクションをアラートビューに紐づける。
-        alert.addAction(okAction)
         
-        //実際にアラートを表示。
-        self.present(alert, animated: true, completion: nil)
         
     }
 }
